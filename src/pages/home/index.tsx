@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { BsCartPlus } from 'react-icons/bs'
 import { api } from '../../services/api';
 import { Link } from 'react-router-dom';
+import { CartContext } from '../../contexts/CartContext';
 
-interface ProductProps{
+export interface ProductProps{
     id: number;
     title: string;
     description: string;
@@ -13,6 +14,7 @@ interface ProductProps{
 
 export function Home(){
     const [products, setProducts] = useState<ProductProps[]>([]);
+    const {addItemCart}  = useContext(CartContext);
 
     useEffect(()=>{
         async function getProducts(){
@@ -21,7 +23,12 @@ export function Home(){
         }
 
         getProducts();
-    },[])
+    },[]);
+
+    function handleAddCarItem(product : ProductProps){
+        addItemCart(product)
+    }
+
     return (
         <div>
             <main className="w-full max-w-7xl px-4 mx-auto" >
@@ -29,7 +36,7 @@ export function Home(){
 
                 <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5'>
                   {products.map((product)=>(
-                      <Link to={`/products/${product.id}`} >
+                     // <Link to={`/products/${product.id}`} >
                       <section key={product.id} className="w-full">
                         <img 
                         className='w-fukk rounded-lg  max-h-70 mb-2'
@@ -42,12 +49,12 @@ export function Home(){
                                 style:"currency",
                                 currency: "BRL"
                             } )}</strong>
-                            <button className='bg-zinc-900 p-1 rounded'>
+                            <button className='bg-zinc-900 p-1 rounded' onClick={ ()=> handleAddCarItem(product)}>
                                 <BsCartPlus size={20} color="#fff"/>
                             </button>
                         </div>
                     </section>
-                    </Link>    
+                    //</Link>    
                   ))}
                 </div>
             </main>
