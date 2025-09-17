@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { BsCartPlus } from 'react-icons/bs'
 import { api } from '../../services/api';
+import { Link } from 'react-router-dom';
 
 interface ProductProps{
     id: number;
@@ -28,6 +29,7 @@ export function Home(){
 
                 <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5'>
                   {products.map((product)=>(
+                      <Link to={`/products/${product.id}`} >
                       <section key={product.id} className="w-full">
                         <img 
                         className='w-fukk rounded-lg  max-h-70 mb-2'
@@ -45,6 +47,7 @@ export function Home(){
                             </button>
                         </div>
                     </section>
+                    </Link>    
                   ))}
                 </div>
             </main>
